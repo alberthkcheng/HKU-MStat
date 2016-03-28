@@ -1,0 +1,32 @@
+# Aircraft data
+# Load data set
+aircraft <- read.table("data/ch1-aircraft.txt", sep = "\t", header = TRUE, colClasses = c("integer","integer","integer","numeric"))
+
+# fit poisson regression model (full model)
+fit <- glm(y~.,data = aircraft, family = "poisson")
+summary(fit)
+# anova(fit)
+drop1(fit, .~., test="LRT") # type II anova (type III if no interaction)
+# contrasts = c("contr.sum","contr.poly")
+confint.default(fit)
+
+# fit poisson regression model (reduced model with x1)
+fit <- glm(y~x2 + x3,data = aircraft, family = "poisson")
+summary(fit)
+drop1(fit, .~., test="LRT") 
+
+# fit poisson regression model (reduced model with x2)
+fit <- glm(y~x1 + x3,data = aircraft, family = "poisson")
+summary(fit)
+# fit poisson regression model (reduced model with x3)
+fit <- glm(y~x1 + x2,data = aircraft, family = "poisson")
+summary(fit)
+# fit poisson regression model (reduced model with only x1)
+fit <- glm(y~x1,data = aircraft, family = "poisson")
+summary(fit)
+# fit poisson regression model (reduced model with only x2)
+fit <- glm(y~x2,data = aircraft, family = "poisson")
+summary(fit)
+# fit poisson regression model (reduced model with only x3)
+fit <- glm(y~x3,data = aircraft, family = "poisson")
+summary(fit)
